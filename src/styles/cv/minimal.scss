@@ -1,0 +1,136 @@
+.cv-minimal {
+  padding: 18mm 20mm;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #2b2b2b;
+
+  &__header {
+    margin-bottom: 8mm;
+  }
+
+  &__photo {
+    width: 26mm;
+    height: 26mm;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 4mm;
+  }
+
+  &__name {
+    font-size: 24pt;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: #111;
+  }
+
+  &__role {
+    color: var(--cv-accent);
+    font-size: 11pt;
+    font-weight: 500;
+    margin-top: 1.5mm;
+  }
+
+  &__contact {
+    color: #777;
+    font-size: 8.5pt;
+    margin-top: 3mm;
+  }
+
+  &__summary {
+    color: #444;
+    margin-top: 3mm;
+    font-size: 9.5pt;
+  }
+
+  &__section {
+    margin-top: 7mm;
+  }
+
+  &__section-title {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #999;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 2mm;
+    margin-bottom: 4mm;
+  }
+
+  &__item {
+    margin-bottom: 4mm;
+  }
+
+  &__item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4mm;
+  }
+
+  &__item-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #111;
+  }
+
+  &__item-date {
+    font-size: 8.5pt;
+    color: #aaa;
+    white-space: nowrap;
+  }
+
+  &__item-sub {
+    color: var(--cv-accent);
+    font-size: 9.5pt;
+    margin-top: 0.5mm;
+    font-weight: 500;
+  }
+
+  &__item-desc {
+    color: #444;
+    font-size: 9pt;
+    margin-top: 1mm;
+  }
+
+  &__bullets {
+    margin: 1.5mm 0 0 5mm;
+  }
+
+  &__bullets li {
+    margin-bottom: 1mm;
+    font-size: 9pt;
+    color: #333;
+  }
+
+  &__skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+    list-style: none;
+  }
+
+  &__skills li {
+    border: 1px solid #ddd;
+    border-radius: 2mm;
+    padding: 1mm 3mm;
+    font-size: 8.5pt;
+    color: #444;
+  }
+
+  &__languages {
+    list-style: none;
+  }
+
+  &__languages li {
+    margin-bottom: 1mm;
+    font-size: 9pt;
+  }
+
+  &__languages strong {
+    color: #111;
+  }
+
+  &__link {
+    color: var(--cv-accent);
+    font-size: 8.5pt;
+  }
+}

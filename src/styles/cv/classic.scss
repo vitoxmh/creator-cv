@@ -1,0 +1,130 @@
+.cv-classic {
+  padding: 14mm 18mm;
+  font-family: Georgia, 'Times New Roman', serif;
+
+  &__photo {
+    width: 30mm;
+    height: 30mm;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 5mm;
+    display: block;
+  }
+
+  &__header {
+    text-align: center;
+    border-bottom: 3px solid var(--cv-accent);
+    padding-bottom: 6mm;
+    margin-bottom: 7mm;
+  }
+
+  &__name {
+    font-size: 24pt;
+    letter-spacing: 1px;
+    color: #1c1c1c;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 11pt;
+    color: var(--cv-accent);
+    margin-top: 2mm;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  &__contact {
+    font-size: 9pt;
+    color: #555;
+    margin-top: 4mm;
+  }
+
+  &__section {
+    margin-bottom: 6mm;
+  }
+
+  &__section-title {
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cv-accent);
+    border-bottom: 1px solid #d8d8d8;
+    padding-bottom: 1.5mm;
+    margin-bottom: 3.5mm;
+  }
+
+  &__summary {
+    color: #333;
+  }
+
+  &__item {
+    margin-bottom: 4mm;
+  }
+
+  &__item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4mm;
+  }
+
+  &__item-title {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1c1c1c;
+  }
+
+  &__item-date {
+    font-size: 9pt;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  &__item-sub {
+    font-style: italic;
+    color: #555;
+    margin-top: 0.5mm;
+  }
+
+  &__item-desc {
+    color: #333;
+    margin-top: 1mm;
+    font-size: 9.5pt;
+  }
+
+  &__bullets {
+    margin: 1.5mm 0 0 5mm;
+  }
+
+  &__bullets li {
+    margin-bottom: 1mm;
+  }
+
+  &__skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+    list-style: none;
+  }
+
+  &__skills li {
+    background: #f0f2f5;
+    border-radius: 2mm;
+    padding: 1.2mm 3mm;
+    font-size: 9pt;
+  }
+
+  &__languages {
+    list-style: none;
+  }
+
+  &__languages li {
+    margin-bottom: 1.2mm;
+  }
+
+  &__item-link {
+    font-weight: normal;
+    font-size: 9pt;
+    color: var(--cv-accent);
+  }
+}
