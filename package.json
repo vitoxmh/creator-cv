@@ -2,19 +2,19 @@
   "name": "cv-generator",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "setup": "npm install --prefix server && npm install --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev": "concurrently -n server,client -c blue,green \"npm run dev:server\" \"npm run dev:client\"",
+    "start": "node server/src/index.js",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run db:migrate --prefix server",
+    "db:deploy": "npm run db:deploy --prefix server",
+    "build": "npm run build --prefix client"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
-    "sass": "^1.77.8",
-    "vite": "^5.4.8"
+    "concurrently": "^9.0.1"
   }
 }

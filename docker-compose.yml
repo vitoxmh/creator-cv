@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cv-generator-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cv_generator
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cv_generator"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  phppgadmin:
+    image: viktor44/phppgadmin
+    container_name: cv-generator-phppgadmin
+    ports:
+      - "8081:80"
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      PORT: 80
+    volumes:
+      - ./docker/phppgadmin/config.inc.php:/var/www/html/conf/config.inc.php:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:

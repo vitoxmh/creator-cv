@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  createdAt    DateTime @default(now()) @map("created_at")
+  cvs          Cv[]
+  @@map("users")
+}
+
+model Cv {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  title       String   @default("Mi CV")
+  data        Json
+  template    String   @default("classic")
+  accentColor String   @map("accent_color") @default("#2c5f8a")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  user        User     @relation(fields: [userId], references: [id])
+  @@index([userId])
+  @@map("cvs")
+}

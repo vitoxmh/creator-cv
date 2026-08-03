@@ -1,0 +1,173 @@
+.cv-elegant {
+  display: grid;
+  grid-template-columns: 52mm 1fr;
+  min-height: 297mm;
+  font-family: Georgia, 'Times New Roman', serif;
+
+  &__aside {
+    background: #f4f5f7;
+    padding: 12mm 7mm;
+    border-right: 2px solid var(--cv-accent);
+  }
+
+  &__photo {
+    width: 30mm;
+    height: 30mm;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 7mm;
+    border: 2px solid var(--cv-accent);
+    padding: 1.5mm;
+  }
+
+  &__block {
+    margin-bottom: 7mm;
+  }
+
+  &__block-title {
+    font-size: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cv-accent);
+    border-bottom: 1px solid #d8dde3;
+    padding-bottom: 1.5mm;
+    margin-bottom: 3mm;
+  }
+
+  &__contact {
+    list-style: none;
+  }
+
+  &__contact li {
+    margin-bottom: 2.5mm;
+    font-size: 8.5pt;
+    color: #444;
+    word-break: break-word;
+  }
+
+  &__skills {
+    list-style: none;
+    margin-top: 2mm;
+  }
+
+  &__skills li {
+    margin-bottom: 1.5mm;
+    font-size: 8.5pt;
+    color: #333;
+  }
+
+  &__skills li::before {
+    content: '▪';
+    color: var(--cv-accent);
+    margin-right: 1.5mm;
+    font-size: 7pt;
+  }
+
+  &__languages {
+    list-style: none;
+  }
+
+  &__languages li {
+    margin-bottom: 2mm;
+    font-size: 8.5pt;
+    color: #333;
+  }
+
+  &__lang-level {
+    display: block;
+    font-size: 8pt;
+    color: #777;
+    margin-top: 0.5mm;
+  }
+
+  &__main {
+    padding: 12mm 10mm;
+  }
+
+  &__header {
+    border-bottom: 2px solid var(--cv-accent);
+    padding-bottom: 4mm;
+    margin-bottom: 5mm;
+  }
+
+  &__name {
+    font-size: 21pt;
+    letter-spacing: 1px;
+    color: #1c1c1c;
+  }
+
+  &__role {
+    color: var(--cv-accent);
+    font-size: 11pt;
+    font-style: italic;
+    margin-top: 1mm;
+  }
+
+  &__summary {
+    color: #444;
+    font-size: 9.5pt;
+    margin-bottom: 6mm;
+  }
+
+  &__section {
+    margin-bottom: 6mm;
+  }
+
+  &__section-title {
+    font-size: 10.5pt;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cv-accent);
+    margin-bottom: 3.5mm;
+  }
+
+  &__item {
+    margin-bottom: 4mm;
+  }
+
+  &__item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 4mm;
+  }
+
+  &__item-title {
+    font-size: 10.5pt;
+    font-weight: bold;
+    color: #1c1c1c;
+  }
+
+  &__item-date {
+    font-size: 8.5pt;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  &__item-sub {
+    font-style: italic;
+    color: #555;
+    margin-top: 0.5mm;
+  }
+
+  &__item-desc {
+    color: #444;
+    margin-top: 1mm;
+    font-size: 9pt;
+  }
+
+  &__bullets {
+    margin: 1.5mm 0 0 5mm;
+  }
+
+  &__bullets li {
+    margin-bottom: 1mm;
+    font-size: 9pt;
+  }
+
+  &__item-link {
+    color: var(--cv-accent);
+    font-size: 8.5pt;
+  }
+}

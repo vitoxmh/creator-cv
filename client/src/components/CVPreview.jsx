@@ -2,11 +2,15 @@ import { forwardRef } from 'react'
 import Classic from './templates/Classic'
 import Modern from './templates/Modern'
 import Minimal from './templates/Minimal'
+import Elegant from './templates/Elegant'
+import Creative from './templates/Creative'
 
 const TEMPLATES = {
   classic: Classic,
   modern: Modern,
-  minimal: Minimal
+  minimal: Minimal,
+  elegant: Elegant,
+  creative: Creative
 }
 
 const CVPreview = forwardRef(function CVPreview({ data, template, accent }, ref) {

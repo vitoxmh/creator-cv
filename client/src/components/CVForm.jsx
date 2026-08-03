@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import SkillInput from './SkillInput'
 
 const EMPTY_EXPERIENCE = { role: '', company: '', start: '', end: '', bullets: '' }
 const EMPTY_EDUCATION = { degree: '', institution: '', start: '', end: '', description: '' }
@@ -173,13 +174,8 @@ export default function CVForm({ data, update }) {
       </Section>
 
       <Section title="Habilidades">
-        <Field label="Habilidades (separadas por coma)">
-          <textarea
-            rows={3}
-            value={data.skills.join(', ')}
-            onChange={(e) => update('skills', e.target.value.split(',').map((s) => s.trim()).filter(Boolean))}
-            placeholder="React, TypeScript, Figma, ..."
-          />
+        <Field label="Habilidades">
+          <SkillInput value={data.skills} onChange={(skills) => update('skills', skills)} />
         </Field>
       </Section>
 
