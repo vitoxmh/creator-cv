@@ -1,14 +1,12 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import dotenv from 'dotenv'
 import authRoutes from './routes/auth.routes.js'
 import cvRoutes from './routes/cv.routes.js'
-
-dotenv.config()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
