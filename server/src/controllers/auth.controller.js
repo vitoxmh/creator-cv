@@ -7,10 +7,13 @@ const TOKEN_AGE_SECONDS = 60 * 60 * 24 * 7 // 7 días
 
 function setTokenCookie(res, userId) {
   const token = jwt.sign({ sub: userId }, process.env.JWT_SECRET, { expiresIn: TOKEN_AGE_SECONDS })
+  const cookieSecure = process.env.COOKIE_SECURE !== undefined
+    ? process.env.COOKIE_SECURE === 'true'
+    : process.env.NODE_ENV === 'production'
   res.cookie('token', token, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    secure: cookieSecure,
     maxAge: TOKEN_AGE_SECONDS * 1000
   })
 }

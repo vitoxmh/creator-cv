@@ -117,38 +117,56 @@ export default function Workspace() {
     }
   }
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF = () => {
     const node = previewRef.current?.querySelector('.cv-document')
     if (!node) return
-    setStatus('Generando PDF…')
-    try {
-      const html2pdf = (await import('html2pdf.js')).default
-      await html2pdf()
-        .set({
-          margin: [0, 0, 12, 0],
-          filename: `${(data.personal.fullName || 'curriculum_vitae').replace(/\s+/g, '_')}.pdf`,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: {
-            mode: ['css', 'legacy'],
-            avoid: [
-              '.cv-classic__item',
-              '.cv-modern__item',
-              '.cv-minimal__item',
-              '.cv-elegant__item',
-              '.cv-creative__item',
-              '.cv-ats__item'
-            ]
-          }
-        })
-        .from(node)
-        .save()
-      setStatus('PDF descargado')
-    } catch (err) {
-      console.error(err)
-      setStatus('Error al generar el PDF')
+    const name = data.personal.fullName || 'Curriculum Vitae'
+    const css = `${cvBaseCss}\n${TEMPLATE_CSS[template] || classicCss}`
+    const doc = `<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${name}</title>
+  <style>
+    @page { size: A4; margin: 0; }
+    html, body { margin: 0; padding: 0; background: #fff; }
+    .print-sheet {
+      padding: 12mm 0;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
     }
+    ${css}
+    @media print {
+      .cv-document,
+      .cv-modern,
+      .cv-creative,
+      .cv-elegant {
+        min-height: 271mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-sheet">
+    <div class="cv-document" style="--cv-accent: ${accent}">
+      ${node.innerHTML}
+    </div>
+  </div>
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => window.print(), 250)
+    })
+  <\/script>
+</body>
+</html>`
+    const win = window.open('', '_blank')
+    if (!win) return
+    win.document.open()
+    win.document.write(doc)
+    win.document.close()
+    win.focus()
+    setStatus('Se abrirá el diálogo de impresión · elige "Guardar como PDF" para exportar sin encabezados ni URL')
   }
 
   const handleDownloadTXT = () => {
@@ -228,8 +246,9 @@ export default function Workspace() {
             <CVPreview ref={previewRef} data={data} template={template} accent={accent} />
           </div>
           <p className="preview-hint">
-            El CV ocupa {pages === 1 ? '1 página' : `${pages} páginas`}. El PDF se genera directamente
-            con margen inferior y salto de página limpio cuando el contenido lo requiere.
+            El CV ocupa {pages === 1 ? '1 página' : `${pages} páginas`}. El PDF conserva el diseño de
+            la plantilla con texto seleccionable y márgenes limpios: elige "Guardar como PDF" en el
+            diálogo de impresión.
           </p>
         </section>
       </main>

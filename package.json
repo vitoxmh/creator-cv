@@ -8,11 +8,16 @@
     "dev:client": "npm run dev --prefix client",
     "dev": "concurrently -n server,client -c blue,green \"npm run dev:server\" \"npm run dev:client\"",
     "start": "node server/src/index.js",
-    "db:up": "docker compose up -d",
+    "db:up": "docker compose up -d mysql phpmyadmin",
     "db:down": "docker compose down",
     "db:migrate": "npm run db:migrate --prefix server",
     "db:deploy": "npm run db:deploy --prefix server",
-    "build": "npm run build --prefix client"
+    "build": "npm run build --prefix client",
+    "up": "docker compose up -d --build",
+    "down": "docker compose down",
+    "dev:up": "docker compose -f docker-compose.dev.yml up -d --build",
+    "dev:down": "docker compose -f docker-compose.dev.yml down",
+    "logs": "docker compose logs -f --tail=100"
   },
   "devDependencies": {
     "concurrently": "^9.0.1"

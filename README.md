@@ -6,39 +6,87 @@ Generador de currículums (CV) con múltiples plantillas, autenticación con JWT
 
 | Capa | Tecnología |
 | --- | --- |
-| Frontend | React 18, Vite, React Router, Sass, html2pdf.js |
+| Frontend | React 18, Vite, React Router, Sass, PDF por impresión del navegador |
 | Backend | Node.js, Express, JWT (cookie httpOnly), bcryptjs |
 | Base de datos | MySQL 8.4 con Prisma ORM |
-| Infra local | Docker Compose (MySQL + phpMyAdmin) |
+| Infra local | Docker Compose (MySQL + phpMyAdmin + app) |
 
 ## Estructura del proyecto
 
 ```
 .
 ├── client/            # Frontend React (Vite)
+│   ├── Dockerfile         # Build de producción servido con Nginx
+│   ├── Dockerfile.dev     # Dev server con hot-reload
+│   ├── nginx.conf         # Sirve estáticos y proxy /api -> server
 │   └── src/
 │       ├── components/      # Formulario, preview, plantillas
 │       ├── pages/           # Login, Register, Workspace
 │       ├── context/         # Autenticación (AuthContext)
 │       └── styles/          # Estilos SCSS
 ├── server/            # Backend Express
-│   ├── prisma/               # Schema y migraciones de la BD
+│   ├── Dockerfile         # Imagen de producción (Node)
+│   ├── Dockerfile.dev     # Dev con node --watch
+│   ├── prisma/            # Schema y migraciones de la BD
 │   └── src/
 │       ├── controllers/      # Lógica de auth y CVs
 │       ├── middleware/       # requireAuth (JWT)
 │       └── routes/           # /api/auth y /api/cvs
-├── docker-compose.yml  # MySQL + phpMyAdmin local
+├── docker-compose.yml   # Stack de producción (MySQL + phpMyAdmin + server + client)
+├── docker-compose.dev.yml # Stack de desarrollo con hot-reload
 ├── render.yaml         # Config de despliegue en Render
 └── package.json        # Scripts raíz (concurrently)
 ```
 
 ## Requisitos
 
-- Node.js 18+
-- Docker (para la base de datos local)
+- Node.js 18+ (solo desarrollo local sin Docker)
+- Docker + Docker Compose
 - npm
 
-## Puesta en marcha
+## Dockerizado
+
+El proyecto incluye dos stacks de Docker Compose: **producción** (`docker-compose.yml`) y **desarrollo** (`docker-compose.dev.yml`). Ambos levantan MySQL, phpMyAdmin, el backend Express y el frontend React.
+
+### Producción
+
+```bash
+npm run up        # construye y levanta todo: http://localhost:8080
+npm run logs      # sigue los logs del stack
+npm run down      # detiene todo
+```
+
+| Servicio | URL |
+| --- | --- |
+| App (client Nginx → proxy `/api` al server) | http://localhost:8080 |
+| API Express | http://localhost:3001 |
+| phpMyAdmin | http://localhost:8081 |
+| MySQL (host) | localhost:3307 |
+
+El frontend se compila y se sirve con **Nginx**, que redirige `/api/*` al contenedor del servidor. El servidor aplica las migraciones de Prisma automáticamente al arrancar.
+
+Variables configurables (opcionales, con valores por defecto): `MYSQL_ROOT_PASSWORD`, `MYSQL_PORT`, `SERVER_PORT`, `CLIENT_PORT`, `JWT_SECRET`, `COOKIE_SECURE`.
+
+> **Nota sobre la cookie**: `NODE_ENV=production` marca la cookie JWT como `Secure`, que el navegador solo guarda por HTTPS. El stack dockerizado por HTTP local fuerza `COOKIE_SECURE=false`. En un despliegue real con HTTPS, pon `COOKIE_SECURE=true`.
+
+### Desarrollo (hot-reload)
+
+```bash
+npm run dev:up    # construye y levanta con hot-reload: http://localhost:5173
+npm run dev:down  # detiene
+```
+
+| Servicio | URL |
+| --- | --- |
+| Frontend (Vite dev, HMR) | http://localhost:5173 |
+| API Express (node --watch) | http://localhost:3001 |
+| phpMyAdmin | http://localhost:8081 |
+
+El código fuente se monta como volumen: los cambios en `server/` reinician el servidor con `node --watch` y los de `client/` se recargan con HMR. El proxy de Vite (`/api`) apunta al contenedor `server` automáticamente vía `VITE_PROXY_TARGET`.
+
+> No ejecutes el stack de producción y el de desarrollo a la vez: comparten los puertos y el contenedor de MySQL.
+
+## Puesta en marcha (sin Docker, desarrollo local)
 
 ### 1. Instalar dependencias
 
@@ -100,7 +148,7 @@ npm run dev:client   # solo frontend
 - **BD**: `cv_generator`.
 - **Admin**: phpMyAdmin en http://localhost:8081.
 
-Para regenerar el esquema desde Prisma:
+Para regenerar el esquema desde Prisma (con el stack levantado):
 
 ```bash
 npm run db:push     # sincroniza el schema sin crear migración
@@ -136,7 +184,10 @@ npm run db:studio   # abre Prisma Studio
 | `npm run setup` | Instala dependencias de server y client |
 | `npm run build` | Compila el frontend |
 | `npm run start` | Arranca el servidor en producción |
-| `npm run db:up` / `db:down` | Levanta / detiene la base de datos local |
+| `npm run up` / `down` | Levanta / detiene el stack Docker completo (producción) |
+| `npm run dev:up` / `dev:down` | Levanta / detiene el stack Docker de desarrollo (hot-reload) |
+| `npm run db:up` | Levanta solo MySQL + phpMyAdmin (base de datos para dev local) |
+| `npm run logs` | Sigue los logs del stack Docker |
 
 ## Seguridad
 

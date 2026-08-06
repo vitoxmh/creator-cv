@@ -1,0 +1,60 @@
+services:
+  mysql:
+    extends:
+      file: docker-compose.yml
+      service: mysql
+
+  phpmyadmin:
+    extends:
+      file: docker-compose.yml
+      service: phpmyadmin
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: cv-generator-server-dev
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: mysql://root:postgres@mysql:3306/cv_generator
+      JWT_SECRET: dev-secret-change-me
+      PORT: 3001
+      NODE_ENV: development
+      CLIENT_ORIGIN: http://localhost:5173
+      COOKIE_SECURE: "false"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    command: sh -c "npm install && npx prisma generate && npm run dev"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: cv-generator-client-dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_PROXY_TARGET: http://server:3001
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      server:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
