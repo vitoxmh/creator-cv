@@ -1,7 +1,7 @@
 import { splitLines, dateRange, initialsOf } from './helpers'
 
 export default function Modern({ data }) {
-  const { personal, experience, education, skills, languages, projects } = data
+  const { personal, experience, education, skills, languages, courses, projects } = data
 
   return (
     <div className="cv-modern">
@@ -108,6 +108,21 @@ export default function Modern({ data }) {
                 </div>
                 {ed.institution && <div className="cv-modern__item-sub">{ed.institution}</div>}
                 {ed.description && <p className="cv-modern__item-desc">{ed.description}</p>}
+              </div>
+            ))}
+          </section>
+        )}
+
+        {courses.some((c) => c.title) && (
+          <section className="cv-modern__section">
+            <h2 className="cv-modern__section-title">Cursos</h2>
+            {courses.filter((c) => c.title).map((c, i) => (
+              <div className="cv-modern__item" key={i}>
+                <div className="cv-modern__item-head">
+                  <span className="cv-modern__item-title">{c.title}</span>
+                  {c.year && <span className="cv-modern__item-date">{c.year}</span>}
+                </div>
+                {c.institution && <div className="cv-modern__item-sub">{c.institution}</div>}
               </div>
             ))}
           </section>

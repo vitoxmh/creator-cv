@@ -69,6 +69,10 @@ export const initialData = {
     { name: 'Español', level: 'Nativo' },
     { name: 'Inglés', level: 'B2 · Avanzado' }
   ],
+  courses: [
+    { title: 'React Avanzado y TypeScript', institution: 'Platzi', year: '2023' },
+    { title: 'Diseño de Experiencia de Usuario', institution: 'Google · Coursera', year: '2022' }
+  ],
   projects: [
     {
       name: 'Sistema de diseño OpenUI',

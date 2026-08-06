@@ -1,35 +1,32 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: cv-generator-postgres
+  mysql:
+    image: mysql:8.4
+    container_name: cv-generator-mysql
     ports:
-      - "5432:5432"
+      - "3307:3306"
     environment:
-      POSTGRES_DB: cv_generator
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      MYSQL_DATABASE: cv_generator
+      MYSQL_ROOT_PASSWORD: postgres
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d cv_generator"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ppostgres"]
       interval: 5s
       timeout: 5s
       retries: 10
 
-  phppgadmin:
-    image: viktor44/phppgadmin
-    container_name: cv-generator-phppgadmin
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: cv-generator-phpmyadmin
     ports:
       - "8081:80"
     environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      PORT: 80
-    volumes:
-      - ./docker/phppgadmin/config.inc.php:/var/www/html/conf/config.inc.php:ro
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
     depends_on:
-      postgres:
+      mysql:
         condition: service_healthy
 
 volumes:
-  pgdata:
+  mysql_data:

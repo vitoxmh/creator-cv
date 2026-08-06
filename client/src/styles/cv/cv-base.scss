@@ -1,7 +1,7 @@
 .cv-document {
   --cv-accent: #2c5f8a;
   width: 210mm;
-  min-height: 297mm;
+  min-height: 285mm;
   background: #fff;
   color: #2b2b2b;
   font-size: 10pt;
@@ -26,5 +26,14 @@
 
   ul {
     padding: 0;
+  }
+
+  .cv-classic__item,
+  .cv-modern__item,
+  .cv-minimal__item,
+  .cv-elegant__item,
+  .cv-creative__item,
+  .cv-ats__item {
+    break-inside: avoid;
   }
 }

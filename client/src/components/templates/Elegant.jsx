@@ -1,7 +1,7 @@
 import { splitLines, contactItems, dateRange } from './helpers'
 
 export default function Elegant({ data }) {
-  const { personal, experience, education, skills, languages, projects } = data
+  const { personal, experience, education, skills, languages, courses, projects } = data
   const contact = contactItems(personal)
 
   return (
@@ -87,6 +87,21 @@ export default function Elegant({ data }) {
                 </div>
                 {ed.institution && <div className="cv-elegant__item-sub">{ed.institution}</div>}
                 {ed.description && <p className="cv-elegant__item-desc">{ed.description}</p>}
+              </div>
+            ))}
+          </section>
+        )}
+
+        {courses.some((c) => c.title) && (
+          <section className="cv-elegant__section">
+            <h2 className="cv-elegant__section-title">Cursos</h2>
+            {courses.filter((c) => c.title).map((c, i) => (
+              <div className="cv-elegant__item" key={i}>
+                <div className="cv-elegant__item-head">
+                  <span className="cv-elegant__item-title">{c.title}</span>
+                  {c.year && <span className="cv-elegant__item-date">{c.year}</span>}
+                </div>
+                {c.institution && <div className="cv-elegant__item-sub">{c.institution}</div>}
               </div>
             ))}
           </section>

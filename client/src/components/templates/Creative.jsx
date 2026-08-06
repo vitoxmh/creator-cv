@@ -1,7 +1,7 @@
 import { splitLines, dateRange } from './helpers'
 
 export default function Creative({ data }) {
-  const { personal, experience, education, skills, languages, projects } = data
+  const { personal, experience, education, skills, languages, courses, projects } = data
 
   const contact = [personal.phone, personal.email, personal.address, personal.website, personal.linkedin].filter(Boolean)
 
@@ -85,6 +85,21 @@ export default function Creative({ data }) {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {courses.some((c) => c.title) && (
+        <section className="cv-creative__section">
+          <h2 className="cv-creative__section-title">Cursos</h2>
+          {courses.filter((c) => c.title).map((c, i) => (
+            <div className="cv-creative__item" key={i}>
+              <div className="cv-creative__item-head">
+                <span className="cv-creative__item-title">{c.title}</span>
+                {c.year && <span className="cv-creative__item-date">{c.year}</span>}
+              </div>
+              {c.institution && <div className="cv-creative__item-sub">{c.institution}</div>}
+            </div>
+          ))}
         </section>
       )}
 

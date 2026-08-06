@@ -1,7 +1,7 @@
 import { splitLines, contactItems, dateRange } from './helpers'
 
 export default function Minimal({ data }) {
-  const { personal, experience, education, skills, languages, projects } = data
+  const { personal, experience, education, skills, languages, courses, projects } = data
   const contact = contactItems(personal)
 
   return (
@@ -74,6 +74,21 @@ export default function Minimal({ data }) {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {courses.some((c) => c.title) && (
+        <section className="cv-minimal__section">
+          <h2 className="cv-minimal__section-title">Cursos</h2>
+          {courses.filter((c) => c.title).map((c, i) => (
+            <div className="cv-minimal__item" key={i}>
+              <div className="cv-minimal__item-head">
+                <span className="cv-minimal__item-title">{c.title}</span>
+                {c.year && <span className="cv-minimal__item-date">{c.year}</span>}
+              </div>
+              {c.institution && <div className="cv-minimal__item-sub">{c.institution}</div>}
+            </div>
+          ))}
         </section>
       )}
 

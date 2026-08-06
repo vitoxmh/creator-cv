@@ -4,6 +4,7 @@ import SkillInput from './SkillInput'
 const EMPTY_EXPERIENCE = { role: '', company: '', start: '', end: '', bullets: '' }
 const EMPTY_EDUCATION = { degree: '', institution: '', start: '', end: '', description: '' }
 const EMPTY_LANGUAGE = { name: '', level: 'Intermedio' }
+const EMPTY_COURSE = { title: '', institution: '', year: '' }
 const EMPTY_PROJECT = { name: '', description: '', link: '' }
 
 function Section({ title, action, children }) {
@@ -208,6 +209,35 @@ export default function CVForm({ data, update }) {
                 </select>
               </Field>
             </div>
+          </div>
+        ))}
+      </Section>
+
+      <Section
+        title="Cursos"
+        action={
+          <button type="button" className="btn btn--ghost" onClick={() => addItem('courses', EMPTY_COURSE)}>
+            + Añadir
+          </button>
+        }
+      >
+        {data.courses.map((course, i) => (
+          <div className="item-card" key={i}>
+            <div className="item-card__head">
+              <strong>Curso {i + 1}</strong>
+              <button type="button" className="btn btn--danger" onClick={() => removeItem('courses', i)}>
+                Eliminar
+              </button>
+            </div>
+            <Field label="Nombre del curso">
+              <input value={course.title} onChange={(e) => setItem('courses', i, 'title', e.target.value)} placeholder="React Avanzado" />
+            </Field>
+            <Field label="Institución">
+              <input value={course.institution} onChange={(e) => setItem('courses', i, 'institution', e.target.value)} placeholder="Platzi, Coursera…" />
+            </Field>
+            <Field label="Año">
+              <input value={course.year} onChange={(e) => setItem('courses', i, 'year', e.target.value)} placeholder="2023" />
+            </Field>
           </div>
         ))}
       </Section>

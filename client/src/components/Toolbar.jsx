@@ -3,7 +3,8 @@ const TEMPLATES = [
   { id: 'modern', label: 'Moderno' },
   { id: 'minimal', label: 'Minimal' },
   { id: 'elegant', label: 'Ejecutivo' },
-  { id: 'creative', label: 'Creativo' }
+  { id: 'creative', label: 'Creativo' },
+  { id: 'ats', label: 'ATS' }
 ]
 
 const ACCENTS = ['#2c5f8a', '#7c3aed', '#0f766e', '#be185d', '#b45309', '#1f2937']
@@ -15,6 +16,7 @@ export default function Toolbar({
   setAccent,
   onPDF,
   onHTML,
+  onTXT,
   onNew,
   onSave,
   saving,
@@ -69,6 +71,9 @@ export default function Toolbar({
         <div className="template-toolbar__actions">
           <button type="button" className="btn btn--ghost" onClick={onHTML}>
             Descargar HTML
+          </button>
+          <button type="button" className="btn btn--ghost" onClick={onTXT}>
+            Descargar TXT
           </button>
           <button type="button" className="btn btn--primary" onClick={onPDF}>
             Descargar PDF

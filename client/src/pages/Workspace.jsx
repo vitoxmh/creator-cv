@@ -5,6 +5,7 @@ import Toolbar from '../components/Toolbar'
 import api, { extractError } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import { initialData } from '../data/sampleData'
+import { cvToPlainText } from '../utils/plainText'
 
 import cvBaseCss from '../styles/cv/cv-base.scss?inline'
 import classicCss from '../styles/cv/classic.scss?inline'
@@ -12,14 +13,16 @@ import modernCss from '../styles/cv/modern.scss?inline'
 import minimalCss from '../styles/cv/minimal.scss?inline'
 import elegantCss from '../styles/cv/elegant.scss?inline'
 import creativeCss from '../styles/cv/creative.scss?inline'
+import atsCss from '../styles/cv/ats.scss?inline'
 
-const ALL_CV_CSS = `${cvBaseCss}\n${classicCss}\n${modernCss}\n${minimalCss}\n${elegantCss}\n${creativeCss}`
+const ALL_CV_CSS = `${cvBaseCss}\n${classicCss}\n${modernCss}\n${minimalCss}\n${elegantCss}\n${creativeCss}\n${atsCss}`
 const TEMPLATE_CSS = {
   classic: classicCss,
   modern: modernCss,
   minimal: minimalCss,
   elegant: elegantCss,
-  creative: creativeCss
+  creative: creativeCss,
+  ats: atsCss
 }
 
 export default function Workspace() {
@@ -32,9 +35,17 @@ export default function Workspace() {
   const [cvTitle, setCvTitle] = useState('Mi CV')
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState('')
+  const [pages, setPages] = useState(1)
   const previewRef = useRef(null)
 
   const update = (section, value) => setData((d) => ({ ...d, [section]: value }))
+
+  useEffect(() => {
+    const node = previewRef.current?.querySelector('.cv-document')
+    if (!node) return
+    const pageHeightPx = node.offsetWidth * (285 / 210)
+    setPages(Math.max(1, Math.ceil(node.offsetHeight / pageHeightPx)))
+  }, [data, template, accent])
 
   const refreshList = useCallback(async () => {
     try {
@@ -82,7 +93,7 @@ export default function Workspace() {
     if (!id) return
     try {
       const { data } = await api.get(`/cvs/${id}`)
-      setData(data.cv.data)
+      setData({ ...initialData, ...data.cv.data })
       setTemplate(data.cv.template)
       setAccent(data.cv.accentColor)
       setCvTitle(data.cv.title)
@@ -106,7 +117,50 @@ export default function Workspace() {
     }
   }
 
-  const handleDownloadPDF = () => window.print()
+  const handleDownloadPDF = async () => {
+    const node = previewRef.current?.querySelector('.cv-document')
+    if (!node) return
+    setStatus('Generando PDF…')
+    try {
+      const html2pdf = (await import('html2pdf.js')).default
+      await html2pdf()
+        .set({
+          margin: [0, 0, 12, 0],
+          filename: `${(data.personal.fullName || 'curriculum_vitae').replace(/\s+/g, '_')}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: {
+            mode: ['css', 'legacy'],
+            avoid: [
+              '.cv-classic__item',
+              '.cv-modern__item',
+              '.cv-minimal__item',
+              '.cv-elegant__item',
+              '.cv-creative__item',
+              '.cv-ats__item'
+            ]
+          }
+        })
+        .from(node)
+        .save()
+      setStatus('PDF descargado')
+    } catch (err) {
+      console.error(err)
+      setStatus('Error al generar el PDF')
+    }
+  }
+
+  const handleDownloadTXT = () => {
+    const text = cvToPlainText(data)
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${(data.personal.fullName || 'curriculum_vitae').replace(/\s+/g, '_')}.txt`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   const handleDownloadHTML = () => {
     const node = previewRef.current
@@ -155,6 +209,7 @@ export default function Workspace() {
             setAccent={setAccent}
             onPDF={handleDownloadPDF}
             onHTML={handleDownloadHTML}
+            onTXT={handleDownloadTXT}
             onNew={handleNew}
             onSave={handleSave}
             saving={saving}
@@ -172,7 +227,10 @@ export default function Workspace() {
           <div className="preview-stage">
             <CVPreview ref={previewRef} data={data} template={template} accent={accent} />
           </div>
-          <p className="preview-hint">Consejo: para el PDF elige «Guardar como PDF» como destino en el diálogo de impresión.</p>
+          <p className="preview-hint">
+            El CV ocupa {pages === 1 ? '1 página' : `${pages} páginas`}. El PDF se genera directamente
+            con margen inferior y salto de página limpio cuando el contenido lo requiere.
+          </p>
         </section>
       </main>
     </div>

@@ -1,7 +1,7 @@
 import { splitLines, contactItems, dateRange } from './helpers'
 
 export default function Classic({ data }) {
-  const { personal, experience, education, skills, languages, projects } = data
+  const { personal, experience, education, skills, languages, courses, projects } = data
   const contact = contactItems(personal)
 
   return (
@@ -89,6 +89,21 @@ export default function Classic({ data }) {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {courses.some((c) => c.title) && (
+        <section className="cv-classic__section">
+          <h2 className="cv-classic__section-title">Cursos</h2>
+          {courses.filter((c) => c.title).map((c, i) => (
+            <div className="cv-classic__item" key={i}>
+              <div className="cv-classic__item-head">
+                <span className="cv-classic__item-title">{c.title}</span>
+                {c.year && <span className="cv-classic__item-date">{c.year}</span>}
+              </div>
+              {c.institution && <div className="cv-classic__item-sub">{c.institution}</div>}
+            </div>
+          ))}
         </section>
       )}
 
