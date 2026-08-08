@@ -62,11 +62,7 @@ export default function Ats({ data }) {
       {skills.length > 0 && (
         <section className="cv-ats__section">
           <h2 className="cv-ats__section-title">Habilidades</h2>
-          <ul className="cv-ats__skills">
-            {skills.map((s, i) => (
-              <li key={i}>{s}</li>
-            ))}
-          </ul>
+          <p className="cv-ats__skills">{skills.join(' | ')}</p>
         </section>
       )}
 

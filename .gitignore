@@ -36,3 +36,4 @@ docker/
 .idea/
 .DS_Store
 Thumbs.db
+client/src/services/api.js

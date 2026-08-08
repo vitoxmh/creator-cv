@@ -89,13 +89,15 @@
     margin-bottom: 1mm;
   }
 
-  &__skills,
+  &__skills {
+    margin-top: 1.5mm;
+  }
+
   &__languages {
     list-style: none;
     margin-top: 1.5mm;
   }
 
-  &__skills li,
   &__languages li {
     margin-bottom: 1mm;
   }
