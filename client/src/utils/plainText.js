@@ -1,3 +1,5 @@
+import { normalizeSkills } from '../components/templates/helpers'
+
 export function splitTextLines(text) {
   return text ? text.split('\n').map((l) => l.trim()).filter(Boolean) : []
 }
@@ -48,7 +50,11 @@ export function cvToPlainText(data) {
 
   if (skills.length) {
     lines.push('HABILIDADES')
-    lines.push(skills.join(', '))
+    const groups = normalizeSkills(skills)
+    groups.forEach((g) => {
+      const cat = g.category ? `${g.category}: ` : ''
+      lines.push(cat + g.items.join(' · '))
+    })
     lines.push('')
   }
 

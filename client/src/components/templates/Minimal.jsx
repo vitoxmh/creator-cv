@@ -1,4 +1,4 @@
-import { splitLines, contactItems, dateRange } from './helpers'
+import { splitLines, contactItems, dateRange, normalizeSkills } from './helpers'
 
 export default function Minimal({ data }) {
   const { personal, experience, education, skills, languages, courses, projects } = data
@@ -55,11 +55,16 @@ export default function Minimal({ data }) {
       {skills.length > 0 && (
         <section className="cv-minimal__section">
           <h2 className="cv-minimal__section-title">Habilidades</h2>
-          <ul className="cv-minimal__skills">
-            {skills.map((s, i) => (
-              <li key={i}>{s}</li>
-            ))}
-          </ul>
+          {normalizeSkills(skills).map((g, gi) => (
+            <div className="cv-minimal__skill-group" key={gi}>
+              {g.category && <h3 className="cv-minimal__skill-cat">{g.category}</h3>}
+              <ul className="cv-minimal__skills">
+                {g.items.map((s, i) => (
+                  <li key={i}>{s}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </section>
       )}
 

@@ -21,3 +21,15 @@ export function dateRange(start, end) {
   if (start && end) return `${start} — ${end}`
   return start || end
 }
+
+export function normalizeSkills(skills) {
+  if (!Array.isArray(skills)) return []
+  if (skills.length > 0 && typeof skills[0] === 'string') {
+    return [{ category: '', items: skills }]
+  }
+  return skills.filter((g) => g && typeof g === 'object' && Array.isArray(g.items))
+}
+
+export function allSkills(skills) {
+  return normalizeSkills(skills).flatMap((g) => g.items)
+}

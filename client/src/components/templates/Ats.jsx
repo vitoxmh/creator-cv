@@ -1,4 +1,4 @@
-import { splitLines, dateRange } from './helpers'
+import { splitLines, dateRange, normalizeSkills } from './helpers'
 
 export default function Ats({ data }) {
   const { personal, experience, education, skills, languages, courses, projects } = data
@@ -62,7 +62,12 @@ export default function Ats({ data }) {
       {skills.length > 0 && (
         <section className="cv-ats__section">
           <h2 className="cv-ats__section-title">Habilidades</h2>
-          <p className="cv-ats__skills">{skills.join(' | ')}</p>
+          {normalizeSkills(skills).map((g, i) => (
+            <p className="cv-ats__skills" key={i}>
+              {g.category ? `${g.category}: ` : ''}
+              {g.items.join(' · ')}
+            </p>
+          ))}
         </section>
       )}
 

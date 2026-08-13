@@ -1,4 +1,4 @@
-import { splitLines, contactItems, dateRange } from './helpers'
+import { splitLines, contactItems, dateRange, normalizeSkills } from './helpers'
 
 export default function Elegant({ data }) {
   const { personal, experience, education, skills, languages, courses, projects } = data
@@ -23,11 +23,16 @@ export default function Elegant({ data }) {
         {skills.length > 0 && (
           <div className="cv-elegant__block">
             <h2 className="cv-elegant__block-title">Habilidades</h2>
-            <ul className="cv-elegant__skills">
-              {skills.map((s, i) => (
-                <li key={i}>{s}</li>
-              ))}
-            </ul>
+            {normalizeSkills(skills).map((g, gi) => (
+              <div className="cv-elegant__skill-group" key={gi}>
+                {g.category && <div className="cv-elegant__skill-cat">{g.category}</div>}
+                <ul className="cv-elegant__skills">
+                  {g.items.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         )}
 

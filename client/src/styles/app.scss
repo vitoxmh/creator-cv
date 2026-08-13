@@ -332,6 +332,38 @@ body {
   gap: 0 12px;
 }
 
+.skill-group {
+  margin-bottom: 12px;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  &__name {
+    flex: 1;
+    font-weight: 600;
+  }
+
+  &__remove {
+    border: none;
+    background: none;
+    color: #9aa7b5;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+
+    &:hover {
+      color: #c0392b;
+      background: #fdecea;
+    }
+  }
+}
+
 .skill-input {
   border: 1px solid #d3dce6;
   border-radius: 6px;

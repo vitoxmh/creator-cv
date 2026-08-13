@@ -124,12 +124,24 @@
     font-size: 9pt;
   }
 
+  &__skill-group {
+    margin-bottom: 2mm;
+  }
+
+  &__skill-cat {
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1mm;
+  }
+
   &__skills {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 2mm;
-    margin-top: 2mm;
+    margin-top: 0;
   }
 
   &__skills li {

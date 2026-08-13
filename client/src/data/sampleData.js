@@ -54,16 +54,12 @@ export const initialData = {
     }
   ],
   skills: [
-    'React',
-    'TypeScript',
-    'JavaScript',
-    'HTML5',
-    'CSS3 / SCSS',
-    'Node.js',
-    'Figma',
-    'Jest',
-    'Accesibilidad (WCAG)',
-    'Git'
+    { category: 'Front-End', items: ['React', 'TypeScript', 'JavaScript', 'Vue.js', 'HTML5', 'CSS3', 'SCSS', 'jQuery'] },
+    { category: 'Back-End', items: ['Node.js', 'PHP', 'CodeIgniter', 'Python'] },
+    { category: 'Bases de datos', items: ['MySQL', 'PostgreSQL', 'SQLite', 'SQL'] },
+    { category: 'Herramientas / DevOps', items: ['Git', 'Docker', 'Linux', 'Hugo'] },
+    { category: 'CMS', items: ['WordPress'] },
+    { category: 'Otros', items: ['Unity', 'C#', 'Figma', 'OpenCode'] }
   ],
   languages: [
     { name: 'Español', level: 'Nativo' },

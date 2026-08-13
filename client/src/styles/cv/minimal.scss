@@ -101,12 +101,23 @@
     color: #333;
   }
 
+  &__skill-group {
+    margin-bottom: 2mm;
+  }
+
+  &__skill-cat {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 1mm;
+  }
+
   &__skills {
     display: flex;
     flex-wrap: wrap;
     gap: 2mm;
     list-style: none;
-    margin-top: 2mm;
+    margin-top: 0;
   }
 
   &__skills li {

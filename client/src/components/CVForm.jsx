@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import SkillInput from './SkillInput'
+import { normalizeSkills } from './templates/helpers'
 
 const EMPTY_EXPERIENCE = { role: '', company: '', start: '', end: '', bullets: '' }
 const EMPTY_EDUCATION = { degree: '', institution: '', start: '', end: '', description: '' }
@@ -176,7 +177,7 @@ export default function CVForm({ data, update }) {
 
       <Section title="Habilidades">
         <Field label="Habilidades">
-          <SkillInput value={data.skills} onChange={(skills) => update('skills', skills)} />
+          <SkillInput value={normalizeSkills(data.skills)} onChange={(skills) => update('skills', skills)} />
         </Field>
       </Section>
 

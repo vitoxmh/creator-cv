@@ -46,9 +46,20 @@
     word-break: break-word;
   }
 
+  &__skill-group {
+    margin-bottom: 2mm;
+  }
+
+  &__skill-cat {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--cv-accent);
+    margin-bottom: 0.5mm;
+  }
+
   &__skills {
     list-style: none;
-    margin-top: 2mm;
+    margin-top: 0;
   }
 
   &__skills li {

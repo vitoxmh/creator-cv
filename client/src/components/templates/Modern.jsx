@@ -1,4 +1,4 @@
-import { splitLines, dateRange, initialsOf } from './helpers'
+import { splitLines, dateRange, initialsOf, normalizeSkills } from './helpers'
 
 export default function Modern({ data }) {
   const { personal, experience, education, skills, languages, courses, projects } = data
@@ -47,11 +47,16 @@ export default function Modern({ data }) {
         {skills.length > 0 && (
           <>
             <h2 className="cv-modern__side-title">Habilidades</h2>
-            <ul className="cv-modern__skills">
-              {skills.map((s, i) => (
-                <li key={i}>{s}</li>
-              ))}
-            </ul>
+            {normalizeSkills(skills).map((g, gi) => (
+              <div className="cv-modern__skill-group" key={gi}>
+                {g.category && <div className="cv-modern__skill-cat">{g.category}</div>}
+                <ul className="cv-modern__skills">
+                  {g.items.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </>
         )}
 

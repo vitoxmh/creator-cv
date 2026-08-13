@@ -100,12 +100,23 @@
     margin-bottom: 1mm;
   }
 
+  &__skill-group {
+    margin-bottom: 2.5mm;
+  }
+
+  &__skill-cat {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 1mm;
+  }
+
   &__skills {
     display: flex;
     flex-wrap: wrap;
     gap: 2mm;
     list-style: none;
-    margin-top: 2.5mm;
+    margin-top: 0;
   }
 
   &__skills li {
